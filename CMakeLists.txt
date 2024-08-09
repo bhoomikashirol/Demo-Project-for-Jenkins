@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.10)
 
 # Set the project name
-project(HelloWorld)
+project(DemoProject)
 
 # Add an executable
-add_executable(hello_world main.cpp)
+add_executable(DemoProject Code.cpp)
