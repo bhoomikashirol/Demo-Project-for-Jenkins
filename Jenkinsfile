@@ -18,6 +18,12 @@ pipeline {
             }
         }
 
+        stage('--verify-files--') {
+            steps {
+                sh 'ls -la Demo-Project-for-Jenkins'
+            }
+        }
+
         stage('--build--') {
             steps {
                 sh '''
