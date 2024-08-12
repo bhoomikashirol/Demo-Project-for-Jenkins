@@ -25,12 +25,12 @@ pipeline {
                 }
             }
         }
-        stage('---clean---') {
+        stage('Clean') {
             steps {
-                sh "mvn clean"
+                sh "rm -rf Demo-Project-for-Jenkins/build"
             }
         }
-        stage('--build--') {
+        stage('Build') {
             steps {
                 sh """
                 mkdir -p Demo-Project-for-Jenkins/build
@@ -40,17 +40,12 @@ pipeline {
                 """
             }
         }
-        stage('--test--') {
+        stage('Test') {
             steps {
                 sh """
                 cd Demo-Project-for-Jenkins/build
                 ./runTests --gtest_output=xml:test_results.xml
                 """
-            }
-        }
-        stage('--package--') {
-            steps {
-                sh "mvn package"
             }
         }
     }
