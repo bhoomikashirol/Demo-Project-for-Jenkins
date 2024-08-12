@@ -1,58 +1,40 @@
 pipeline {
     agent any
+
     stages {
-        stage('Checkout Main') {
+        stage('---clean---') {
             steps {
-                // Checkout the main branch
-                git branch: 'main', url: 'https://github.com/bhoomikashirol/Demo-Project-for-Jenkins.git'
+                sh 'rm -rf build'
             }
         }
-        stage('Checkout Code') {
+
+        stage('--build--') {
             steps {
-                // Checkout the code branch
-                script {
-                    sh 'git clone -b code https://github.com/bhoomikashirol/Demo-Project-for-Jenkins.git code-branch'
-                    sh 'cp code-branch/Code.cpp Demo-Project-for-Jenkins/'
-                }
+                sh '''
+                    mkdir -p build
+                    cd build
+                    cmake ..
+                    make
+                '''
             }
         }
-        stage('Checkout Test') {
+
+        stage('--test--') {
             steps {
-                // Checkout the Test branch
-                script {
-                    sh 'git clone -b Test https://github.com/bhoomikashirol/Demo-Project-for-Jenkins.git test-branch'
-                    sh 'cp test-branch/CodeTest.cpp Demo-Project-for-Jenkins/'
-                }
+                sh '''
+                    cd build
+                    ctest --output-on-failure
+                '''
             }
         }
-        stage('Clean') {
+
+        stage('--package--') {
             steps {
-                sh "rm -rf Demo-Project-for-Jenkins/build"
+                sh '''
+                    cd build
+                    make package
+                '''
             }
-        }
-        stage('Build') {
-            steps {
-                sh """
-                mkdir -p Demo-Project-for-Jenkins/build
-                cd Demo-Project-for-Jenkins/build
-                cmake ..
-                make
-                """
-            }
-        }
-        stage('Test') {
-            steps {
-                sh """
-                cd Demo-Project-for-Jenkins/build
-                ./runTests --gtest_output=xml:test_results.xml
-                """
-            }
-        }
-    }
-    post {
-        always {
-            junit 'Demo-Project-for-Jenkins/build/test_results.xml'
         }
     }
 }
-
