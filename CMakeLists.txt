@@ -28,9 +28,13 @@ add_subdirectory(${CMAKE_CURRENT_BINARY_DIR}/googletest-src
                  ${CMAKE_CURRENT_BINARY_DIR}/googletest-build
                  EXCLUDE_FROM_ALL)
 
+# Specify the exact locations of the source files
+set(MAIN_SOURCE ${CMAKE_CURRENT_SOURCE_DIR}/Code.cpp)
+set(TEST_SOURCE ${CMAKE_CURRENT_SOURCE_DIR}/CodeTest.cpp)
+
 # Add the executables
-add_executable(DemoProject Code.cpp)
-add_executable(DemoTest Code.cpp CodeTest.cpp)
+add_executable(DemoProject ${MAIN_SOURCE})
+add_executable(DemoTest ${MAIN_SOURCE} ${TEST_SOURCE})
 
 # Link the test executable with Google Test
 target_link_libraries(DemoTest gtest_main)
