@@ -1,6 +1,4 @@
 cmake_minimum_required(VERSION 3.10)
-
-# Set the project name
 project(DemoProject)
 
 # Add coverage flags
@@ -31,16 +29,18 @@ if(result)
 endif()
 
 # Prevent GoogleTest from overriding our compiler/linker options
-# when building with Visual Studio
 set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
 
-# Add googletest directly to our build. This defines
-# the gtest and gtest_main targets.
+# Add googletest directly to our build
 add_subdirectory(${CMAKE_BINARY_DIR}/googletest-src
                  ${CMAKE_BINARY_DIR}/googletest-build
                  EXCLUDE_FROM_ALL)
 
 # Add an executable for the tests
-add_executable(DemoTest CodeTest.cpp)
+add_executable(DemoTest Code.cpp CodeTest.cpp)
 target_link_libraries(DemoTest gtest_main)
 add_test(NAME DemoTest COMMAND DemoTest)
+
+# Set C++ standard
+set(CMAKE_CXX_STANDARD 11)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
