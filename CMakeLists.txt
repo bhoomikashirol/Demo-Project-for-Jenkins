@@ -1,3 +1,20 @@
+cmake_minimum_required(VERSION 3.10)
+
+# Set the project name
+project(DemoProject)
+
+# Add coverage flags
+if(CMAKE_COMPILER_IS_GNUCXX)
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} --coverage")
+    set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} --coverage")
+endif()
+
+# Add an executable
+add_executable(DemoProject Code.cpp)
+
+# Enable testing
+enable_testing()
+
 # Download and unpack googletest at configure time
 configure_file(CMakeLists.txt.in googletest-download/CMakeLists.txt)
 execute_process(COMMAND ${CMAKE_COMMAND} -G "${CMAKE_GENERATOR}" .
@@ -27,5 +44,3 @@ add_subdirectory(${CMAKE_BINARY_DIR}/googletest-src
 add_executable(DemoTest CodeTest.cpp)
 target_link_libraries(DemoTest gtest_main)
 add_test(NAME DemoTest COMMAND DemoTest)
-
-
