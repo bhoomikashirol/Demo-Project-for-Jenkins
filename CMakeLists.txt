@@ -1,22 +1,31 @@
-cmake_minimum_required(VERSION 3.10)
+# Download and unpack googletest at configure time
+configure_file(CMakeLists.txt.in googletest-download/CMakeLists.txt)
+execute_process(COMMAND ${CMAKE_COMMAND} -G "${CMAKE_GENERATOR}" .
+  RESULT_VARIABLE result
+  WORKING_DIRECTORY ${CMAKE_BINARY_DIR}/googletest-download )
+if(result)
+  message(FATAL_ERROR "CMake step for googletest failed: ${result}")
+endif()
+execute_process(COMMAND ${CMAKE_COMMAND} --build .
+  RESULT_VARIABLE result
+  WORKING_DIRECTORY ${CMAKE_BINARY_DIR}/googletest-download )
+if(result)
+  message(FATAL_ERROR "Build step for googletest failed: ${result}")
+endif()
 
-# Set the project name
-project(DemoProject)
+# Prevent GoogleTest from overriding our compiler/linker options
+# when building with Visual Studio
+set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
 
-# Add the main executable
-add_executable(DemoProject Code.cpp)
+# Add googletest directly to our build. This defines
+# the gtest and gtest_main targets.
+add_subdirectory(${CMAKE_BINARY_DIR}/googletest-src
+                 ${CMAKE_BINARY_DIR}/googletest-build
+                 EXCLUDE_FROM_ALL)
 
-# Enable testing
-enable_testing()
+# Now simply link against gtest or gtest_main as needed. Eg
+add_executable(DemoTest CodeTest.cpp)
+target_link_libraries(DemoTest gtest_main)
+add_test(NAME DemoTest COMMAND DemoTest)
 
-# Find and include GTest
-find_package(GTest REQUIRED)
-include_directories(${GTEST_INCLUDE_DIRS})
-
-# Add the test executable
-add_executable(runTests CodeTest.cpp)
-target_link_libraries(runTests ${GTEST_LIBRARIES} pthread)
-
-# Add a test
-add_test(NAME DemoTest COMMAND runTests)
 
