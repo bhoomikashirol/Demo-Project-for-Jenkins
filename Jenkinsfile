@@ -23,7 +23,7 @@ pipeline {
             steps {
                 sh '''
                     cd build
-                    ctest --output-on-failure
+                    ./DemoTest
                 '''
             }
         }
