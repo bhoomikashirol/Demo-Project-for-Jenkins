@@ -21,13 +21,23 @@ pipeline {
                 '''
             }
         }
+        stage('Debug') {
+            steps {
+                sh '''
+                    echo "Current directory contents:"
+                    ls -la
+                    echo "CMakeLists.txt contents:"
+                    cat CMakeLists.txt
+                '''
+            }
+        }
         stage('Build') {
             steps {
                 sh '''
                     mkdir -p build
                     cd build
-                    cmake ..
-                    make
+                    cmake .. -DCMAKE_VERBOSE_MAKEFILE=ON
+                    make VERBOSE=1
                 '''
             }
         }
