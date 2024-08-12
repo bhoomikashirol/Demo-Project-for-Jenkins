@@ -4,15 +4,15 @@ pipeline {
         stage('Checkout Main') {
             steps {
                 // Checkout the main branch
-                git branch: 'main', url: 'https://github.com/your-repo-url.git'
+                git branch: 'main', url: 'https://github.com/bhoomikashirol/Demo-Project-for-Jenkins.git'
             }
         }
         stage('Checkout Code') {
             steps {
                 // Checkout the code branch
                 script {
-                    sh 'git fetch origin code:code'
-                    sh 'git checkout code'
+                    sh 'git clone -b code https://github.com/bhoomikashirol/Demo-Project-for-Jenkins.git code-branch'
+                    sh 'cp code-branch/Code.cpp Demo-Project-for-Jenkins/'
                 }
             }
         }
@@ -20,8 +20,8 @@ pipeline {
             steps {
                 // Checkout the Test branch
                 script {
-                    sh 'git fetch origin Test:Test'
-                    sh 'git checkout Test'
+                    sh 'git clone -b Test https://github.com/bhoomikashirol/Demo-Project-for-Jenkins.git test-branch'
+                    sh 'cp test-branch/CodeTest.cpp Demo-Project-for-Jenkins/'
                 }
             }
         }
@@ -33,8 +33,8 @@ pipeline {
         stage('--build--') {
             steps {
                 sh """
-                mkdir -p build
-                cd build
+                mkdir -p Demo-Project-for-Jenkins/build
+                cd Demo-Project-for-Jenkins/build
                 cmake ..
                 make
                 """
@@ -43,7 +43,7 @@ pipeline {
         stage('--test--') {
             steps {
                 sh """
-                cd build
+                cd Demo-Project-for-Jenkins/build
                 ./runTests --gtest_output=xml:test_results.xml
                 """
             }
@@ -56,8 +56,7 @@ pipeline {
     }
     post {
         always {
-            junit 'build/test_results.xml'
+            junit 'Demo-Project-for-Jenkins/build/test_results.xml'
         }
     }
 }
-
