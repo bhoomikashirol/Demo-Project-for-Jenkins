@@ -9,7 +9,7 @@ if(CMAKE_COMPILER_IS_GNUCXX)
     set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} --coverage")
 endif()
 
-# Add an executable
+# Add an executable for the main code
 add_executable(DemoProject Code.cpp)
 
 # Enable testing
@@ -40,7 +40,7 @@ add_subdirectory(${CMAKE_BINARY_DIR}/googletest-src
                  ${CMAKE_BINARY_DIR}/googletest-build
                  EXCLUDE_FROM_ALL)
 
-# Now simply link against gtest or gtest_main as needed. Eg
+# Add an executable for the tests
 add_executable(DemoTest CodeTest.cpp)
 target_link_libraries(DemoTest gtest_main)
 add_test(NAME DemoTest COMMAND DemoTest)
