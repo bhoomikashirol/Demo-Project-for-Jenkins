@@ -1,15 +1,12 @@
-// C++ program to display "Hello World"
-
-// Header file for input output functions
 #include <iostream>
-using namespace std;
 
-// Main() function: where the execution of
-// program begins
-int main()
-{
-	// Prints hello world
-	cout << "Hello World";
+// Function to be tested
+std::string getHelloWorld() {
+    return "Hello World";
+}
 
-	return 0;
+// Main function
+int main() {
+    std::cout << getHelloWorld();
+    return 0;
 }
