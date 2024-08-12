@@ -30,7 +30,7 @@ add_subdirectory(${CMAKE_CURRENT_BINARY_DIR}/googletest-src
 
 # Specify the exact locations of the source files
 set(MAIN_SOURCE ${CMAKE_CURRENT_SOURCE_DIR}/Code.cpp)
-set(TEST_SOURCE ${CMAKE_CURRENT_SOURCE_DIR}/CodeTest.cpp)
+set(TEST_SOURCE ${CMAKE_CURRENT_SOURCE_DIR}/var/lib/jenkins/workspace/PipelineDemo/code-branch/CodeTest.cpp)
 
 # Add the executables
 add_executable(DemoProject ${MAIN_SOURCE})
